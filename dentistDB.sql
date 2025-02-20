@@ -1,4 +1,14 @@
-CREATE DATABASE dentistDB;
+CREATE DATABASE dentistdb;
+
+GRANT ALL PRIVILEGES ON dentistDB.* TO 'root'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW DATABASES; 
+
+USE dentistdb; 
+
+SELECT DATABASE();
+
 CREATE TABLE Dentist (
 DentistId int,
 LastName varchar(255),
