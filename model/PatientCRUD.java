@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.sql.*;
 import java.util.*;
 
-public class TreatmentCRUD {
+public class patientCRUD {
     // Database connection setup
     private static Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/new_schema";
@@ -12,7 +12,7 @@ public class TreatmentCRUD {
 
         return DriverManager.getConnection(url, username, password);
     }
-}
+
 
 class Patient {
     private int id;
@@ -260,4 +260,5 @@ public class PatientCRUD {
         }
         System.out.println("Patient not found.");
     }
+}
 }
