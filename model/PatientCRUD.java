@@ -12,6 +12,7 @@ public class TreatmentCRUD {
 
         return DriverManager.getConnection(url, username, password);
     }
+}
 
 class Patient {
     private int id;
