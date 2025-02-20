@@ -1,4 +1,4 @@
-/*CREATE DATABASE dentistDB;
+CREATE DATABASE dentistDB;
 CREATE TABLE Dentist (
 DentistId int,
 LastName varchar(255),
@@ -51,5 +51,3 @@ CREATE TABLE treatment (
     price INT ,
     length INT
 );
-
-*/
