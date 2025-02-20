@@ -144,4 +144,27 @@ public class TreatmentCRUD {
             e.printStackTrace();
         }
     }
+    // Search Treatment by ID
+    public Treatment getTreatmentById(int treatmentID) {
+        String query = "SELECT * FROM treatment WHERE treatmentID = ?";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            
+            statement.setInt(1, treatmentID);
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                return new Treatment(
+                    resultSet.getInt("treatmentID"),
+                    resultSet.getString("treatmentType"),
+                    resultSet.getInt("price"),
+                    resultSet.getInt("length")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
