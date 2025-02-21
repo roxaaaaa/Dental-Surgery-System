@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.sql.*;
 
 class Patient{
     private int id;
@@ -12,6 +13,21 @@ class Patient{
     private String county;
     private String eircode;
     private Boolean medCard;
+
+    public class MySQLConnection {
+        public static void main(String[] args) {
+            String host = "jdbc:mysql://localhost:3306/mydatabase";
+            String username = "root";
+            String password = "password";
+            try {
+                Connection conn = DriverManager.getConnection(host, username, password);
+                System.out.println("Connected to MySQL database");
+            } catch (SQLException e) {
+                System.out.println("Failed to connect to MySQL database");
+                e.printStackTrace();
+            }
+        }
+    }
 
     public Patient(int id, String firstName, String lastName, String dateOfBirth, String email, String street, String town, String county, String eircode, Boolean medCard) {
         this.id = id;
@@ -67,7 +83,7 @@ class Patient{
     }
 
     public String getLastName() {
-        return firstName;
+        return lastName;
     }
 
     public String getDOB() {
