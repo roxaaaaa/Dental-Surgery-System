@@ -126,7 +126,7 @@ public class PatientCRUD {
         while (true) {
             System.out.println("\nPatient CRUD System");
             System.out.println("1. Create Patient");
-            System.out.println("2. Search Patients")
+            System.out.println("2. Search Patients");
             System.out.println("3. Read Patients");
             System.out.println("4. Update Patient");
             System.out.println("5. Delete Patient");
