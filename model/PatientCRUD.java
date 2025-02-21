@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.sql.*;
 
-class Patient{
+class PatientCRUD{
     private int id;
     private String firstName;
     private String lastName;
@@ -14,22 +13,7 @@ class Patient{
     private String eircode;
     private Boolean medCard;
 
-    public class MySQLConnection {
-        public static void main(String[] args) {
-            String host = "jdbc:mysql://localhost:3306/mydatabase";
-            String username = "root";
-            String password = "password";
-            try {
-                Connection conn = DriverManager.getConnection(host, username, password);
-                System.out.println("Connected to MySQL database");
-            } catch (SQLException e) {
-                System.out.println("Failed to connect to MySQL database");
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public Patient(int id, String firstName, String lastName, String dateOfBirth, String email, String street, String town, String county, String eircode, Boolean medCard) {
+    public PatientCRUD(int id, String firstName, String lastName, String dateOfBirth, String email, String street, String town, String county, String eircode, Boolean medCard) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -83,7 +67,7 @@ class Patient{
     }
 
     public String getLastName() {
-        return lastName;
+        return firstName;
     }
 
     public String getDOB() {
@@ -142,11 +126,10 @@ public class PatientCRUD {
         while (true) {
             System.out.println("\nPatient CRUD System");
             System.out.println("1. Create Patient");
-            System.out.println("2. Search Patients");
-            System.out.println("3. Read Patients");
-            System.out.println("4. Update Patient");
-            System.out.println("5. Delete Patient");
-            System.out.println("6. Exit");
+            System.out.println("2. Read Patients");
+            System.out.println("3. Update Patient");
+            System.out.println("4. Delete Patient");
+            System.out.println("5. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -156,18 +139,15 @@ public class PatientCRUD {
                     createPatient(scanner);
                     break;
                 case 2:
-                    searchPatient(scanner);
-                    break;
-                case 3:
                     readPatients();
                     break;
-                case 4:
+                case 3:
                     updatePatient(scanner);
                     break;
-                case 5:
+                case 4:
                     deletePatient(scanner);
                     break;
-                case 6:
+                case 5:
                     System.out.println("Exiting...");
                     scanner.close();
                     return;
@@ -266,26 +246,5 @@ public class PatientCRUD {
             }
         }
         System.out.println("Patient not found.");
-    }
-
-    private static void searchPatient(Scanner scanner) {
-        System.out.print("Enter first name: ");
-        String firstName = scanner.nextLine().toLowerCase();
-        System.out.print("Enter last name: ");
-        String lastName = scanner.nextLine().toLowerCase();
-
-        boolean found = false;
-        for (Patient patient : patients) {
-            if (patient.getFirstName().toLowerCase().equals(firstName) &&
-                patient.getLastName().toLowerCase().equals(lastName)) {
-                System.out.println("\nPatient found:");
-                System.out.println(patient);
-                found = true;
-            }
-        }
-
-        if (!found) {
-            System.out.println("No patient found with that name.");
-        }
     }
 }
