@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Patient {
+class PatientCRUD{
     private int id;
     private String firstName;
     private String lastName;
