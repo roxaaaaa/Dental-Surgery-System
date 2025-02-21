@@ -1,11 +1,15 @@
 CREATE DATABASE dentistdb;
 
-GRANT ALL PRIVILEGES ON dentistDB.* TO 'root'@'localhost';
-FLUSH PRIVILEGES;
+/* GRANT ALL PRIVILEGES ON dentistDB.* TO 'root'@'localhost';
+FLUSH PRIVILEGES; */
 
 SHOW DATABASES; 
 
 USE dentistdb; 
+
+SHOW DATABASES;
+
+SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'dentistdb';
 
 SELECT DATABASE();
 
@@ -20,8 +24,6 @@ PhoneNo int,
 
 PRIMARY KEY(DentistId)
 );
-
-
 
 CREATE TABLE Paitent (
     PaitentID int,
