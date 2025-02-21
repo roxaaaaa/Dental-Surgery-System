@@ -1,6 +1,122 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+class PatientCRUD{
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String dateOfBirth;
+    private String email;
+    private String street;
+    private String town;
+    private String county;
+    private String eircode;
+    private Boolean medCard;
+
+    public Patient(int id, String firstName, String lastName, String dateOfBirth, String email, String street, String town, String county, String eircode, Boolean medCard) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.street = street;
+        this.town = town;
+        this.county = county;
+        this.eircode = eircode;
+        this.medCard = medCard;    
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDOB(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public void setEircode(String eircode) {
+        this.eircode = eircode;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return firstName;
+    }
+
+    public String getDOB() {
+        return dateOfBirth;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getTown() {
+        return town;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public String getEircode() {
+        return eircode;
+    }
+
+    public Boolean getMedCard() {
+        return medCard;
+    }
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+           "id=" + id +
+           ", firstName='" + firstName + '\'' +
+           ", lastName='" + lastName + '\'' +
+           ", dateOfBirth='" + dateOfBirth + '\'' +
+           ", email='" + email + '\'' +
+           ", street='" + street + '\'' +
+           ", town='" + town + '\'' +
+           ", county='" + county + '\'' +
+           ", eircode='" + eircode + '\'' +
+           ", medCard=" + medCard +
+           '}';
+}
+
+    
+}
+
 public class PatientCRUD {
     private static ArrayList<Patient> patients = new ArrayList<>();
     private static int nextId = 1;
@@ -10,11 +126,10 @@ public class PatientCRUD {
         while (true) {
             System.out.println("\nPatient CRUD System");
             System.out.println("1. Create Patient");
-            System.out.println("2. View All Patients");
+            System.out.println("2. Read Patients");
             System.out.println("3. Update Patient");
             System.out.println("4. Delete Patient");
-            System.out.println("5. Search Patient by Name and Surname");
-            System.out.println("6. Exit");
+            System.out.println("5. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -24,7 +139,7 @@ public class PatientCRUD {
                     createPatient(scanner);
                     break;
                 case 2:
-                    viewAllPatients();
+                    readPatients();
                     break;
                 case 3:
                     updatePatient(scanner);
@@ -33,9 +148,6 @@ public class PatientCRUD {
                     deletePatient(scanner);
                     break;
                 case 5:
-                    searchPatient(scanner);
-                    break;
-                case 6:
                     System.out.println("Exiting...");
                     scanner.close();
                     return;
@@ -71,45 +183,13 @@ public class PatientCRUD {
         System.out.println("Patient created successfully.");
     }
 
-    private static void viewAllPatients() {
+    private static void readPatients() {
         if (patients.isEmpty()) {
             System.out.println("No patients found.");
-            return;
-        }
-
-        System.out.println("--------------------------------------------------------------------------------------");
-        System.out.printf("%-5s | %-15s | %-15s | %-10s | %-25s | %-10s | %-10s | %-10s | %-10s | %-10s%n",
-                "ID", "First Name", "Last Name", "DOB", "Email", "Street", "Town", "County", "Eircode", "MedCard");
-        System.out.println("--------------------------------------------------------------------------------------");
-
-        for (Patient patient : patients) {
-            System.out.printf("%-5d | %-15s | %-15s | %-10s | %-25s | %-10s | %-10s | %-10s | %-10s | %-10s%n",
-                    patient.getId(), patient.getFirstName(), patient.getLastName(), patient.getDOB(), patient.getEmail(),
-                    patient.getStreet(), patient.getTown(), patient.getCounty(), patient.getEircode(),
-                    patient.getMedCard() ? "Yes" : "No");
-        }
-
-        System.out.println("--------------------------------------------------------------------------------------");
-    }
-
-    private static void searchPatient(Scanner scanner) {
-        System.out.print("Enter first name: ");
-        String firstName = scanner.nextLine().toLowerCase();
-        System.out.print("Enter last name: ");
-        String lastName = scanner.nextLine().toLowerCase();
-
-        boolean found = false;
-        for (Patient patient : patients) {
-            if (patient.getFirstName().toLowerCase().equals(firstName) &&
-                patient.getLastName().toLowerCase().equals(lastName)) {
-                System.out.println("\nPatient found:");
+        } else {
+            for (Patient patient : patients) {
                 System.out.println(patient);
-                found = true;
             }
-        }
-
-        if (!found) {
-            System.out.println("No patient found with that name.");
         }
     }
 
@@ -117,29 +197,35 @@ public class PatientCRUD {
         System.out.print("Enter patient ID to update: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-
+        
         for (Patient patient : patients) {
             if (patient.getId() == id) {
                 System.out.print("Enter new first name: ");
                 String firstName = scanner.nextLine();
+
                 System.out.print("Enter new last name: ");
                 String lastName = scanner.nextLine();
+
                 System.out.print("Enter new street: ");
                 String street = scanner.nextLine();
+
                 System.out.print("Enter new town: ");
                 String town = scanner.nextLine();
+
                 System.out.print("Enter new County: ");
                 String county = scanner.nextLine();
+
                 System.out.print("Enter new eircode: ");
                 String eircode = scanner.nextLine();
 
+
                 patient.setFirstName(firstName);
                 patient.setLastName(lastName);
-                patient.setStreet(street);
-                patient.setTown(town);
-                patient.setCounty(county);
-                patient.setEircode(eircode);
-
+                patient.setLastName(street);
+                patient.setLastName(town);
+                patient.setLastName(county);
+                patient.setLastName(eircode);
+                
                 System.out.println("Patient updated successfully.");
                 return;
             }
@@ -151,12 +237,10 @@ public class PatientCRUD {
         System.out.print("Enter patient ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-
-        Iterator<Patient> iterator = patients.iterator();
-        while (iterator.hasNext()) {
-            Patient patient = iterator.next();
+        
+        for (Patient patient : patients) {
             if (patient.getId() == id) {
-                iterator.remove();
+                patients.remove(patient);
                 System.out.println("Patient deleted successfully.");
                 return;
             }
