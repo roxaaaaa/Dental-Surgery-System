@@ -201,18 +201,50 @@ public class Dentist {
     }
 
         // Delete a dentist by ID
-        public void deleteDentist(int dentistID) {
-            String query = "DELETE FROM dentist WHERE dentistID = ?";
-            try (Connection connection = getConnection();
-                 PreparedStatement statement = connection.prepareStatement(query)) {
+        // public void deleteDentist(int dentistID) {
+        //     String query = "DELETE FROM dentist WHERE dentistID = ?";
+        //     try (Connection connection = getConnection();
+        //          PreparedStatement statement = connection.prepareStatement(query)) {
     
-                statement.setInt(1, dentistID);
-                int rowsAffected = statement.executeUpdate();
-                if (rowsAffected > 0) {
-                    System.out.println("Dentist deleted successfully!");
+        //         statement.setInt(1, dentistID);
+        //         int rowsAffected = statement.executeUpdate();
+        //         if (rowsAffected > 0) {
+        //             System.out.println("Dentist deleted successfully!");
+        //         }
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
+        public void deleteDentist(int dentistID) {
+            String deleteQuery = "DELETE FROM dentist WHERE dentistID = ?";
+            String maxIDQuery = "SELECT MAX(dentistID) FROM dentist";
+            String resetAutoIncrementQuery = "ALTER TABLE dentist AUTO_INCREMENT = ?";
+        
+            try (Connection connection = getConnection();
+                 PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
+                 Statement maxIDStatement = connection.createStatement()) {
+        
+                // Delete the dentist with the provided ID
+                deleteStatement.setInt(1, dentistID);
+                deleteStatement.executeUpdate();
+        
+                // Retrieve the current maximum dentistID in the table
+                ResultSet maxIDResult = maxIDStatement.executeQuery(maxIDQuery);
+                if (maxIDResult.next()) {
+                    int maxID = maxIDResult.getInt(1);
+        
+                    // If the maxID is lower than the dentistID that was deleted, reset the AUTO_INCREMENT
+                    if (maxID < dentistID) {
+                        int newAutoIncrementValue = dentistID;
+                        PreparedStatement resetAutoIncrementStatement = connection.prepareStatement(resetAutoIncrementQuery);
+                        resetAutoIncrementStatement.setInt(1, newAutoIncrementValue);
+                        resetAutoIncrementStatement.executeUpdate();
+                    }
                 }
+        
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        
 }
